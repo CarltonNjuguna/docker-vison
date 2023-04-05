@@ -1,11 +1,5 @@
 import streamlit as st
-import pandas as pd
-import cv2
 from PIL import Image
-import numpy as np
-import os
-import time
-import sys
 from ultralytics import YOLO
 import shutil
 
