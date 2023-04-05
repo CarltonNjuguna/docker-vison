@@ -8,22 +8,23 @@ def object_detection_image():
     st.subheader("""
     This object detection project takes in an image and outputs the image with bounding boxes created around the objects in the image
     """)
+    model1 = YOLO('detail.pt')
+    model2 = YOLO('gros.pt')
     uploaded_file = st.file_uploader("Choisissez une image", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
         image = Image.open(uploaded_file).convert("RGB")
         st.image(image, caption="Image originale", use_column_width=True)
         confThreshold =st.slider('Confidence', 0, 100, 50)
-        nmsThreshold= st.slider('Threshold', 0, 100, 20)
-        model = YOLO('best.pt')
-        model.predict(source=image, conf=confThreshold/100,save=True)
+        model1.predict(source=image, conf=confThreshold/100,save=True)
+        model2.predict(source=image, conf=confThreshold/100,save=True)
         col1, col2 = st.columns(2)
         blur_image = Image.open("runs/detect/predict/image0.jpg").convert("RGB")
-        gray_image = Image.open("runs/detect/predict/image0.jpg").convert("RGB")
+        gray_image = Image.open("runs/detect/predict2/image0.jpg").convert("RGB")
         with col1:
-            st.image(gray_image, caption="Image en niveaux de gris")
+            st.image(gray_image, caption="ocr large")
         with col2:
-            st.image(blur_image, caption="Image avec effet de flou")
+            st.image(blur_image, caption="ocr zoom")
         shutil.rmtree('runs')
 
 def yolo_seg():
